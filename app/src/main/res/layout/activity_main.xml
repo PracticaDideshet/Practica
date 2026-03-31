@@ -8,6 +8,17 @@
     android:background="@color/background_dark"
     tools:context=".MainActivity">
 
+    <ImageButton
+        android:id="@+id/btnOpenPlaylist"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/ic_menu_sort_by_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/accent_pink" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/albumCard"
         android:layout_width="0dp"
@@ -19,7 +30,7 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/btnOpenPlaylist">
 
         <ImageView
             android:id="@+id/albumArt"
@@ -32,9 +43,11 @@
 
     <TextView
         android:id="@+id/trackTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="32dp"
+        android:gravity="center"
         android:text="@string/track_title_placeholder"
         android:textColor="@color/white"
         android:textSize="24sp"

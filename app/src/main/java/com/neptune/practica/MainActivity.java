@@ -10,7 +10,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +26,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         btnPlayPause = findViewById(R.id.btnPlayPause);
         ImageButton btnNext = findViewById(R.id.btnNext);
         ImageButton btnPrevious = findViewById(R.id.btnPrevious);
+        ImageButton btnOpenPlaylist = findViewById(R.id.btnOpenPlaylist);
         playerSeekBar = findViewById(R.id.playerSeekBar);
         trackTitle = findViewById(R.id.trackTitle);
         artistName = findViewById(R.id.artistName);
@@ -69,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         btnPlayPause.setOnClickListener(v -> togglePlayPause());
         btnNext.setOnClickListener(v -> playNext());
         btnPrevious.setOnClickListener(v -> playPrevious());
+        btnOpenPlaylist.setOnClickListener(v -> showPlaylistDialog());
 
         playerSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -82,6 +89,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+    }
+
+    private void showPlaylistDialog() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        View view = getLayoutInflater().inflate(android.R.layout.list_content, null);
+        ListView listView = view.findViewById(android.R.id.list);
+        
+        List<String> songTitles = new ArrayList<>();
+        for (Song song : songList) {
+            songTitles.add(song.getTitle() + " - " + song.getArtist());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, songTitles);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener((parent, view1, position, id) -> {
+            currentSongIndex = position;
+            prepareSong(currentSongIndex);
+            mediaPlayer.start();
+            btnPlayPause.setImageResource(android.R.drawable.ic_media_pause);
+            bottomSheetDialog.dismiss();
+        });
+
+        bottomSheetDialog.setContentView(view);
+        bottomSheetDialog.show();
     }
 
     private void checkPermissions() {
@@ -106,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
             int artistColumn = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
             int dataColumn = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
 
+            songList.clear();
             do {
                 String title = songCursor.getString(titleColumn);
                 String artist = songCursor.getString(artistColumn);
@@ -192,7 +225,6 @@ public class MainActivity extends AppCompatActivity {
         handler.removeCallbacksAndMessages(null);
     }
 
-    // Вспомогательный класс для песни
     private static class Song {
         private String title;
         private String artist;
