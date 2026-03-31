@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Neptune Player</string>
+    <string name="track_title_placeholder">Track Title</string>
+    <string name="artist_name_placeholder">Artist Name</string>
+    <string name="desc_album_art">Album Art</string>
+    <string name="desc_previous">Previous</string>
+    <string name="desc_play_pause">Play/Pause</string>
+    <string name="desc_next">Next</string>
+</resources>
