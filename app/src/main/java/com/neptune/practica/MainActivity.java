@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -78,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
         btnPlayPause = findViewById(R.id.btnPlayPause);
         ImageButton btnNext = findViewById(R.id.btnNext);
         ImageButton btnPrevious = findViewById(R.id.btnPrevious);
-        ImageButton btnOpenPlaylist = findViewById(R.id.btnOpenPlaylist);
+        // Кнопка плейлиста теперь Button, а не ImageButton
+        Button btnOpenPlaylist = findViewById(R.id.btnOpenPlaylist);
         playerSeekBar = findViewById(R.id.playerSeekBar);
         trackTitle = findViewById(R.id.trackTitle);
         artistName = findViewById(R.id.artistName);
